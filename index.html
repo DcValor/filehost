@@ -2,43 +2,45 @@
 <html>
 <head>
     <title>My Text Files</title>
-    <style>
+<style>
     body {
-        background-color: #0d1117; /* Very dark blue-black */
-        color: #c9d1d9;            /* Soft gray text */
-        font-family: 'Courier New', Courier, monospace;
-        padding: 40px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        padding: 40px 20px;
     }
     .container {
-        max-width: 700px;
+        max-width: 600px;
         margin: 0 auto;
-        border: 1px solid #30363d;
-        padding: 20px;
-        border-radius: 6px;
-        background-color: #161b22;
+        background: white;
+        padding: 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Soft shadow */
+        border-radius: 12px;
     }
     h1 {
-        color: #58a6ff; /* Bright blue */
-        border-bottom: 1px solid #30363d;
-        padding-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #111;
     }
     .file-link {
         display: block;
-        padding: 12px;
-        color: #79c0ff; /* Light blue links */
+        padding: 15px;
+        margin-bottom: 10px;
+        background: #f4f4f4;
+        border-radius: 8px;
         text-decoration: none;
-        border-bottom: 1px solid #30363d;
-        transition: padding-left 0.2s ease;
+        color: #333;
+        font-weight: 500;
+        border-left: 5px solid transparent; /* Invisible border for hover effect */
     }
     .file-link:hover {
-        background-color: #1f2428;
-        color: #fff;
-        padding-left: 20px; /* Moves text to the right when hovered */
+        background: #e8f0fe;
+        color: #1a73e8; /* Google Blue */
+        border-left: 5px solid #1a73e8; /* Blue bar appears on left */
     }
-    .loading { color: #8b949e; }
-    </style>
+</style>
 </head>
 <body>
     <div class="container">
