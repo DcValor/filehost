@@ -33,22 +33,52 @@
             --modal-overlay: rgba(0, 0, 0, 0.8);
         }
 
-        /* --- 2. BASE STYLES --- */
+/* 2. BASE STYLES */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 40px;
+            /* Flexbox Magic for Sticky Footer */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Minimum height = 100% of screen */
             transition: background-color 0.3s, color 0.3s;
         }
 
-        .container { max-width: 900px; margin: 0 auto; }
+        .container {
+            max-width: 900px;
+            width: 100%;       /* Ensure it doesn't shrink */
+            margin: 40px auto; /* Center it */
+            padding: 0 20px;   /* Safety padding on sides */
+            box-sizing: border-box;
+            flex: 1;           /* Grows to fill empty space! */
+        }
 
-        /* Header & Search */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        h1 { color: var(--accent-color); margin: 0; }
-        
+        /* Footer Styles */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-color);
+            opacity: 0.8;
+            transition: all 0.5s ease; /* Smooth animation when resizing */
+            border-top: 1px solid transparent;
+        }
+
+        /* State A: Page is Short (Big & Floating) */
+        .footer-large {
+            font-size: 1.2rem;
+            padding-bottom: 100px; /* Pushes it up "a little higher" */
+            font-weight: bold;
+            opacity: 0.6;
+        }
+
+        /* State B: Page is Full (Small & Anchored) */
+        .footer-small {
+            font-size: 0.85rem;
+            background-color: var(--card-bg); /* Subtle background */
+            border-top: 1px solid var(--border-color);
+        }
         .theme-toggle {
             background: none;
             border: 2px solid var(--accent-color);
@@ -173,6 +203,9 @@
 <div style="text-align: center; margin-top: 50px; padding: 20px; color: var(--text-color); opacity: 0.6; font-size: 0.9rem;">
     <p>Hosted by <b>DcValor</b> • Powered by GitHub</p>
 </div>
+<footer id="mainFooter" class="footer footer-large">
+    <p>Hosted by <b>YourName</b> • Powered by GitHub</p>
+</footer>
 <script>
     // --- THEME LOGIC ---
     const htmlEl = document.documentElement;
@@ -203,6 +236,7 @@
             const text = card.querySelector('.file-name').textContent;
             card.style.display = text.toLowerCase().includes(filter) ? "flex" : "none";
         });
+        adjustFooter();
     }
 
     // --- MODAL & PREVIEW LOGIC ---
@@ -260,10 +294,32 @@
             `).join('');
             
             listDiv.classList.remove('loading');
+            adjustFooter();
         })
         .catch(() => {
             document.getElementById('list').innerHTML = "No files found yet!";
         });
+        // --- SMART FOOTER LOGIC ---
+    function adjustFooter() {
+        const footer = document.getElementById('mainFooter');
+        const list = document.getElementById('list');
+        
+        // Check if the file list has many items (e.g., more than 5)
+        // OR if the page content is taller than the window
+        const isPageFull = list.children.length > 8 || document.body.scrollHeight > window.innerHeight;
+
+        if (isPageFull) {
+            // Switch to "Small & Bottom" mode
+            footer.classList.remove('footer-large');
+            footer.classList.add('footer-small');
+        } else {
+            // Switch to "Big & Floating" mode
+            footer.classList.remove('footer-small');
+            footer.classList.add('footer-large');
+        }
+    }
+    // Run this whenever the file list is loaded or filtered
+    // (I added this call to your existing fetch logic below)
 </script>
 
 </body>
