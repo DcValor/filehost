@@ -151,7 +151,7 @@
 <div class="container">
     <div class="header">
         <h1>My Files</h1>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌑 Dark Mode</button>
     </div>
 
     <input type="text" id="searchBox" placeholder="Search files..." onkeyup="filterFiles()">
@@ -188,7 +188,7 @@
     }
 
     function updateButtonText(theme) {
-        themeBtn.textContent = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        themeBtn.textContent = theme === 'dark' ? '🔦 Light Mode' : '🌑 Dark Mode';
     }
 
     // --- SEARCH LOGIC ---
@@ -253,7 +253,7 @@
             listDiv.innerHTML = files.map(file => `
                 <div class="file-link">
                     <span class="file-name" onclick="openPreview('${file}')">${file}</span>
-                    <a href="files/${file}" download="${file}" class="download-btn" title="Download">⬇️</a>
+                    <a href="files/${file}" download="${file}" class="download-btn" title="Download">📥</a>
                 </div>
             `).join('');
             
