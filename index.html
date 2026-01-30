@@ -7,28 +7,32 @@
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
         .file-link { display: block; padding: 10px; border-bottom: 1px solid #eee; text-decoration: none; color: #333; }
         .file-link:hover { background: #f9f9f9; color: #007bff; }
+        .loading { color: #666; font-style: italic; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>My Hosted Files</h1>
-        <div id="list">Loading files...</div>
+        <div id="list" class="loading">Loading files...</div>
     </div>
 
     <script>
-        // -------------------------------------------------------
-        // MANUAL LIST: Add your file names here when you upload them!
-        const myFiles = [
-            "placeholder.txt",
-            // "notes.txt",
-            // "story.md"
-        ];
-        // -------------------------------------------------------
-
-        const listDiv = document.getElementById('list');
-        listDiv.innerHTML = myFiles.map(file => 
-            `<a href="files/${file}" class="file-link" target="_blank">${file}</a>`
-        ).join('');
+        // FETCH AUTOMATION: This asks for the list the robot made
+        fetch('files.json')
+            .then(response => {
+                if (!response.ok) throw new Error("List not found yet");
+                return response.json();
+            })
+            .then(files => {
+                const listDiv = document.getElementById('list');
+                listDiv.innerHTML = files.map(file => 
+                    `<a href="files/${file}" class="file-link" target="_blank">${file}</a>`
+                ).join('');
+                listDiv.classList.remove('loading');
+            })
+            .catch(error => {
+                document.getElementById('list').innerHTML = "No files found yet! (Or the robot is still working)";
+            });
     </script>
 </body>
 </html>
