@@ -33,7 +33,7 @@
             --modal-overlay: rgba(0, 0, 0, 0.8);
         }
 
-/* 2. BASE STYLES */
+        /* --- 2. BASE STYLES --- */
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
@@ -42,17 +42,17 @@
             /* Flexbox Magic for Sticky Footer */
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Minimum height = 100% of screen */
+            min-height: 100vh; 
             transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
             max-width: 900px;
-            width: 100%;       /* Ensure it doesn't shrink */
-            margin: 40px auto; /* Center it */
-            padding: 0 20px;   /* Safety padding on sides */
+            width: 100%;      
+            margin: 40px auto; 
+            padding: 0 20px;  
             box-sizing: border-box;
-            flex: 1;           /* Grows to fill empty space! */
+            flex: 1;           /* Grows to fill empty space, pushing footer down */
         }
 
         /* Footer Styles */
@@ -61,14 +61,15 @@
             padding: 20px;
             color: var(--text-color);
             opacity: 0.8;
-            transition: all 0.5s ease; /* Smooth animation when resizing */
+            transition: all 0.5s ease;
             border-top: 1px solid transparent;
+            margin-top: auto; /* Safety net to push footer down */
         }
 
         /* State A: Page is Short (Big & Floating) */
         .footer-large {
             font-size: 1.2rem;
-            padding-bottom: 100px; /* Pushes it up "a little higher" */
+            padding-bottom: 100px; 
             font-weight: bold;
             opacity: 0.6;
         }
@@ -76,9 +77,13 @@
         /* State B: Page is Full (Small & Anchored) */
         .footer-small {
             font-size: 0.85rem;
-            background-color: var(--card-bg); /* Subtle background */
+            background-color: var(--card-bg); 
             border-top: 1px solid var(--border-color);
         }
+
+        /* Header & Inputs */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
         .theme-toggle {
             background: none;
             border: 2px solid var(--accent-color);
@@ -87,6 +92,7 @@
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.2s;
         }
         .theme-toggle:hover { background-color: var(--accent-color); color: var(--bg-color); }
 
@@ -108,7 +114,6 @@
         }
         .file-link:hover { transform: translateY(-5px); background-color: var(--card-hover); border-color: var(--accent-color); }
 
-        /* The File Name (Now a button behavior) */
         .file-name {
             font-weight: 600; color: var(--text-color); text-decoration: none;
             flex-grow: 1; word-break: break-all; cursor: pointer;
@@ -118,12 +123,13 @@
         .download-btn {
             color: var(--accent-color); text-decoration: none; font-size: 1.2rem;
             margin-left: 10px; padding: 8px; border-radius: 50%;
+            cursor: pointer;
         }
         .download-btn:hover { background-color: rgba(46, 125, 50, 0.1); }
 
         /* --- 3. MODAL (POPUP) STYLES --- */
         .modal-overlay {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--modal-overlay);
             z-index: 1000;
@@ -145,25 +151,14 @@
             margin-bottom: 20px; padding-bottom: 10px;
             border-bottom: 1px solid var(--border-color);
         }
-
         .modal-title { font-size: 1.5rem; font-weight: bold; color: var(--accent-color); }
-        
-        .close-btn {
-            background: none; border: none; font-size: 2rem;
-            color: var(--text-color); cursor: pointer; line-height: 1;
-        }
+        .close-btn { background: none; border: none; font-size: 2rem; color: var(--text-color); cursor: pointer; line-height: 1; }
 
-        /* The scrolling text area */
         #modalText {
-            flex-grow: 1;
-            white-space: pre-wrap; /* Keeps line breaks */
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            padding: 15px;
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
+            flex-grow: 1; white-space: pre-wrap; overflow-y: auto;
+            font-family: 'Courier New', monospace; padding: 15px;
+            background-color: var(--card-bg); border-radius: 8px;
+            border: 1px solid var(--border-color); color: var(--text-color);
         }
 
         .modal-actions { margin-top: 20px; display: flex; justify-content: flex-end; }
@@ -200,12 +195,11 @@
         </div>
     </div>
 </div>
-<div style="text-align: center; margin-top: 50px; padding: 20px; color: var(--text-color); opacity: 0.6; font-size: 0.9rem;">
-    <p>Hosted by <b>DcValor</b> • Powered by GitHub</p>
-</div>
+
 <footer id="mainFooter" class="footer footer-large">
-    <p>Hosted by <b>YourName</b> • Powered by GitHub</p>
+    <p>Hosted by <b>DcValor</b> • Powered by GitHub</p>
 </footer>
+
 <script>
     // --- THEME LOGIC ---
     const htmlEl = document.documentElement;
@@ -223,6 +217,7 @@
     }
 
     function updateButtonText(theme) {
+        // Fixed Icons
         themeBtn.textContent = theme === 'dark' ? '🔦 Light Mode' : '🌑 Dark Mode';
     }
 
@@ -239,18 +234,17 @@
         adjustFooter();
     }
 
-    // --- MODAL & PREVIEW LOGIC ---
+    // --- MODAL LOGIC ---
     const modal = document.getElementById('fileModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalText = document.getElementById('modalText');
     const copyBtn = document.getElementById('copyBtn');
 
-    // Open the popup and fetch text
     async function openPreview(filename) {
         modal.style.display = 'flex';
         modalTitle.textContent = filename;
         modalText.textContent = "Loading...";
-        copyBtn.textContent = "Copy Content"; // Reset button text
+        copyBtn.textContent = "Copy Content"; 
 
         try {
             const response = await fetch(`files/${filename}`);
@@ -262,15 +256,12 @@
         }
     }
 
-    // Close the popup
     function closeModal(event, force) {
-        // Only close if clicking the background (overlay) or the X button
         if (force || event.target === modal) {
             modal.style.display = 'none';
         }
     }
 
-    // Copy functionality
     function copyToClipboard() {
         const text = modalText.textContent;
         navigator.clipboard.writeText(text).then(() => {
@@ -279,13 +270,29 @@
         });
     }
 
-    // --- MAIN LOADING LOGIC ---
+    // --- SMART FOOTER LOGIC ---
+    function adjustFooter() {
+        const footer = document.getElementById('mainFooter');
+        const list = document.getElementById('list');
+        
+        // Logic: If list has more than 8 items OR page is taller than screen
+        const isPageFull = list.children.length > 8 || document.body.scrollHeight > window.innerHeight;
+
+        if (isPageFull) {
+            footer.classList.remove('footer-large');
+            footer.classList.add('footer-small');
+        } else {
+            footer.classList.remove('footer-small');
+            footer.classList.add('footer-large');
+        }
+    }
+
+    // --- MAIN LOADING ---
     fetch('files.json')
         .then(res => res.json())
         .then(files => {
             const listDiv = document.getElementById('list');
             
-            // NOTICE: The file-name link now calls openPreview() instead of regular href
             listDiv.innerHTML = files.map(file => `
                 <div class="file-link">
                     <span class="file-name" onclick="openPreview('${file}')">${file}</span>
@@ -298,28 +305,8 @@
         })
         .catch(() => {
             document.getElementById('list').innerHTML = "No files found yet!";
+            adjustFooter();
         });
-        // --- SMART FOOTER LOGIC ---
-    function adjustFooter() {
-        const footer = document.getElementById('mainFooter');
-        const list = document.getElementById('list');
-        
-        // Check if the file list has many items (e.g., more than 5)
-        // OR if the page content is taller than the window
-        const isPageFull = list.children.length > 8 || document.body.scrollHeight > window.innerHeight;
-
-        if (isPageFull) {
-            // Switch to "Small & Bottom" mode
-            footer.classList.remove('footer-large');
-            footer.classList.add('footer-small');
-        } else {
-            // Switch to "Big & Floating" mode
-            footer.classList.remove('footer-small');
-            footer.classList.add('footer-large');
-        }
-    }
-    // Run this whenever the file list is loaded or filtered
-    // (I added this call to your existing fetch logic below)
 </script>
 
 </body>
