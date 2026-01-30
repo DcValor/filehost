@@ -1,0 +1,30 @@
+name: Update File List
+
+on:
+  push:
+    paths:
+      - 'files/**' # Triggers only when you change the files folder
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create File List
+        run: |
+          cd files
+          # This magic line lists all files and saves them to files.json
+          python3 -c 'import os, json; print(json.dumps([f for f in os.listdir(".") if os.path.isfile(f)], indent=2))' > ../files.json
+          
+      - name: Commit and Push
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add files.json
+          # Only commit if the list actually changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update file list" && git push)
