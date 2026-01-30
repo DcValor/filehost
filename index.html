@@ -26,18 +26,45 @@
     }
     .file-link {
         background: white;
-        padding: 30px 20px;
+        padding: 20px;       /* Slightly less padding for a tighter look */
         border-radius: 10px;
-        text-decoration: none;
-        color: #444;
-        text-align: center;
-        font-weight: bold;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         transition: transform 0.2s;
+        
+        /* Flexbox magic to separate name and icon */
+        display: flex;       
+        justify-content: space-between; 
+        align-items: center; 
     }
+
     .file-link:hover {
-        transform: translateY(-5px); /* Floats up when hovered */
+        transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Style for the File Name (The View Link) */
+    .file-name {
+        text-decoration: none;
+        color: #444;
+        font-weight: bold;
+        flex-grow: 1; /* Takes up all available space */
+        word-break: break-all; /* Prevents long names from breaking layout */
+    }
+    .file-name:hover {
+        color: tomato; /* Highlights text when you hover the name */
+    }
+
+    /* Style for the Download Symbol */
+    .download-btn {
+        text-decoration: none;
+        font-size: 1.2rem;
+        margin-left: 15px;
+        padding: 8px;
+        border-radius: 50%; /* Makes the hover effect circular */
+        cursor: pointer;
+    }
+    .download-btn:hover {
+        background-color: #ffe6e1; /* Light tomato background on hover */
     }
         input[type="text"] {
         width: 100%;
@@ -70,9 +97,15 @@ input[type="text"]:focus {
             })
             .then(files => {
                 const listDiv = document.getElementById('list');
-                listDiv.innerHTML = files.map(file => 
-                    `<a href="files/${file}" class="file-link" target="_blank">${file}</a>`
-                ).join('');
+                
+                // We now create a DIV card containing two A tags (View and Download)
+                listDiv.innerHTML = files.map(file => `
+                    <div class="file-link">
+                        <a href="files/${file}" target="_blank" class="file-name">${file}</a>
+                        <a href="files/${file}" download="${file}" class="download-btn" title="Download">⬇️</a>
+                    </div>
+                `).join('');
+                
                 listDiv.classList.remove('loading');
             })
             .catch(error => {
