@@ -3,11 +3,41 @@
 <head>
     <title>My Text Files</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
-        .file-link { display: block; padding: 10px; border-bottom: 1px solid #eee; text-decoration: none; color: #333; }
-        .file-link:hover { background: #f9f9f9; color: #007bff; }
-        .loading { color: #666; font-style: italic; }
+    body {
+        background-color: #0d1117; /* Very dark blue-black */
+        color: #c9d1d9;            /* Soft gray text */
+        font-family: 'Courier New', Courier, monospace;
+        padding: 40px;
+    }
+    .container {
+        max-width: 700px;
+        margin: 0 auto;
+        border: 1px solid #30363d;
+        padding: 20px;
+        border-radius: 6px;
+        background-color: #161b22;
+    }
+    h1 {
+        color: #58a6ff; /* Bright blue */
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .file-link {
+        display: block;
+        padding: 12px;
+        color: #79c0ff; /* Light blue links */
+        text-decoration: none;
+        border-bottom: 1px solid #30363d;
+        transition: padding-left 0.2s ease;
+    }
+    .file-link:hover {
+        background-color: #1f2428;
+        color: #fff;
+        padding-left: 20px; /* Moves text to the right when hovered */
+    }
+    .loading { color: #8b949e; }
     </style>
 </head>
 <body>
