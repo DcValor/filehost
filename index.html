@@ -39,11 +39,25 @@
         transform: translateY(-5px); /* Floats up when hovered */
         box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
+        input[type="text"] {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 30px;
+        font-size: 18px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box; /* Keeps padding inside the width */
+        outline: none;
+    }
+input[type="text"]:focus {
+    border-color: tomato; /* Turns tomato color when you click inside! */
+}
 </style>
 </head>
 <body>
     <div class="container">
         <h1>My Files</h1>
+        <input type="text" id="searchBox" placeholder="Search files..." onkeyup="filterFiles()">
         <div id="list" class="loading">Loading files...</div>
     </div>
 
@@ -64,6 +78,22 @@
             .catch(error => {
                 document.getElementById('list').innerHTML = "No files found yet! (Or the robot is still working)";
             });
+        function filterFiles() {
+            const input = document.getElementById('searchBox');
+            const filter = input.value.toLowerCase();
+            const list = document.getElementById('list');
+            const cards = list.getElementsByTagName('a'); // Get all the file cards
+
+        // Loop through all cards and hide those that don't match
+        for (let i = 0; i < cards.length; i++) {
+            const text = cards[i].textContent || cards[i].innerText;
+            if (text.toLowerCase().indexOf(filter) > -1) {
+                cards[i].style.display = ""; // Show
+            } else {
+                cards[i].style.display = "none"; // Hide
+            }
+        }
+    }
     </script>
 </body>
 </html>
